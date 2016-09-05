@@ -1,0 +1,33 @@
+
+ html, body { 
+ 	height: 100%; 
+ 	margin: 0; 
+ 	padding: 0; 
+ 	background-color: #333;
+ 	font-family: 'Lato', sans-serif;
+ 	 }
+
+
+
+
+#map { height: 100%; }
+
+
+#left-column{
+    background-color: #333;
+   
+} 
+
+#left-column h2{
+    color: #fefefe;
+} 
+
+#left-column ul{
+    color: #fefefe;
+} 
+
+
+#search-places{
+    margin-bottom: 1em;
+    color: #333;
+}

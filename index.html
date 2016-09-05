@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Prueba</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,300,300italic,400italic,700,700italic,900italic,900&amp;subset=latin,latin-ext" rel="stylesheet">
+	<link rel="stylesheet" href="./app.css">
+
+</head>
+<body>
+	<div id="left-column" class="col-md-3">
+	  <h2>GOOD PLACES TO EAT AT BOGOTA</h2>
+	  
+    <!--<input type="search"  id="search-places" placeholder="Search for a cool place" data-bind="textInput: location">-->
+
+	  <input type="search"  id="search-places" placeholder="Search.." data-bind="template: {location:'title', foreach:filteredPlaces}, value: self.filteredPlaces">
+	  <ul class="location-list" data-bind="foreach:  filterSearch">
+	  	<li data-bind="text: title"></li>
+		</ul>
+	</div>
+ 	<div id="map" class="col-md-9"></div>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>
+	<script src="app.js"></script>
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyByTvKnxKNsPT2IpbHjxE4VR2OxJ9BiKp8&v1&callback=initMap"></script>
+
+</body>
+</html>
