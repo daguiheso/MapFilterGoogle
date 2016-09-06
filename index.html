@@ -14,7 +14,11 @@
 	  
     <!--<input type="search"  id="search-places" placeholder="Search for a cool place" data-bind="textInput: location">-->
 
-	  <input type="search"  id="search-places" placeholder="Search.." data-bind="template: {location:'title', foreach:filteredPlaces}, value: self.filteredPlaces">
+	  <input type="search"
+	  			 id="search-places"
+	  			 placeholder="Search.."
+	  			 data-bind="template: {location:'title', foreach:filteredPlaces}, value: self.filteredPlaces"
+	  >
 	  <ul class="location-list" data-bind="foreach:  filterSearch">
 	  	<li data-bind="text: title"></li>
 		</ul>
@@ -22,7 +26,7 @@
  	<div id="map" class="col-md-9"></div>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-debug.js"></script>
 	<script src="app.js"></script>
 	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyByTvKnxKNsPT2IpbHjxE4VR2OxJ9BiKp8&v1&callback=initMap"></script>
 
