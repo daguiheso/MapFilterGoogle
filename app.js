@@ -108,6 +108,13 @@ function filter (site, letters) {
 };
 
 function populateInfoWindow(marker, infowindow) {
+
+  if (marker.getAnimation() !== null) marker.setAnimation(null);
+  else {
+    marker.setAnimation(google.maps.Animation.BOUNCE);
+    setTimeout(function(){ marker.setAnimation(null); }, 2100);
+  }
+
   if (infowindow.marker != marker) {
 
     var encodeName = encodeURI(marker.title);
