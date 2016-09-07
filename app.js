@@ -40,7 +40,6 @@ const initialLocations = [
 
 function initMap() {
 
-  var largeInfowindow = new google.maps.InfoWindow();
   var bounds = new google.maps.LatLngBounds();
 
   var viewModel = function () {
@@ -64,6 +63,8 @@ function initMap() {
       });
 
       initialLocations[i].marker= marker;
+
+      var largeInfowindow = new google.maps.InfoWindow();
 
       marker.addListener('click', function () {
         populateInfoWindow(this, largeInfowindow);
@@ -108,14 +109,40 @@ function filter (site, letters) {
 
 function populateInfoWindow(marker, infowindow) {
   if (infowindow.marker != marker) {
-    infowindow.marker = marker;
 
-    infowindow.setContent('<div>' + marker.title + '</div>');
-    infowindow.open(map, marker);
-    infowindow.marker.setAnimation(google.maps.Animation.BOUNCE);
+    var encodeName = encodeURI(marker.title);
+    var wikiUrl = "http://en.wikipedia.org/w/api.php?action=opensearch&format=json&search=" + encodeName + "&limit=1&redirects=return&format=json"
 
-    infowindow.addListener('closeclick', function () {
-      infowindow.marker.setAnimation(null);
+    $.ajax ({
+      url: wikiUrl,
+      dataType: "jsonp",
+      success: function ( response ){
+        var articleList = response[1];
+        if (articleList.length > 0) {
+          for (var i=0; i<articleList.length; i++) {
+            articleStr = articleList[i];
+            var url = 'http://en.wikipedia.org/wiki/' + articleStr;
+            var contentWindow = '<div id="content">' + marker.title +
+                                  '<p>' + response[2] + '</p>' +
+                                  '<a href=" ' + url + '">' + url + '</a>' +
+                                '</div>';
+            infowindow.setContent(contentWindow);
+            // console.log(response);
+          }
+        } else {
+          contentWindow = '<div id="content">' + marker.title +
+                            '<p>' + 'No articles found on Wikipedia'+ '</p>' +
+                          '</div>'
+          infowindow.setContent(contentWindow);
+        }
+      }
+    }).error(function(e){
+      contentWindow = '<div id="content">' + marker.title +
+                        '<p>' + 'Failed to reach Wikipedia'+ '</p>' +
+                      '</div>'
+      infowindow.setContent(contentWindow);
     });
+
+    infowindow.open(map, marker);
   }
 }
