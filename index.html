@@ -1,32 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-	<meta charset="UTF-8">
-	<title>Prueba</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Neighborhood map</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <!--fonts-->
   <link href="https://fonts.googleapis.com/css?family=Lato:400,300,300italic,400italic,700,700italic,900italic,900&amp;subset=latin,latin-ext" rel="stylesheet">
-	<link rel="stylesheet" href="./app.css">
+  <link href="app.css" rel="stylesheet">
 </head>
 <body>
+  <div id="left-column" class="col-md-3">
+    <h2>Places to go in Bogotá, Colombia</h2>
 
-	<div id="left-column" class="col-md-3">
-		<h2>GOOD PLACES TO EAT AT BOGOTA</h2>
-		<input type="search"
-					 id="search-places"
-					 placeholder="Search.."
-					 data-bind="value: query, valueUpdate: 'keyup'">
+    <input type="search"
+    id="search-places"
+    placeholder="Search for cool places"
+    data-bind="value: query, valueUpdate: 'keyup'">
 
-	  <ul class="location-list" data-bind="template: {initialLocations:'name', foreach:sitesFilter}, value: self.sitesFilter">
-	  	<li data-bind="text: title"></li>
-		</ul>
-	</div>
-	
- 	<div id="map" class="col-md-9"></div>
-
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-debug.js"></script>
-	<script src="app.js"></script>
-	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyByTvKnxKNsPT2IpbHjxE4VR2OxJ9BiKp8&v1&callback=initMap"></script>
-
+    <ul class="location-list" data-bind="template: {initialLocations:'name', foreach:sitesFilter}, value: self.sitesFilter">
+      <li>
+        <a><strong data-bind="text:title, click: $root.markerTrigger"></strong></a>
+      </li>
+    </ul>
+  </div>
+  <div id="map" class="col-md-9"></div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-debug.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  <script type="text/javascript" src="./app.js"></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyByTvKnxKNsPT2IpbHjxE4VR2OxJ9BiKp8&v1&callback=initMap" onerror="googleError()">
+  </script>
 </body>
 </html>

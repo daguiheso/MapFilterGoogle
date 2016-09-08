@@ -1,39 +1,41 @@
 var map;
 
-const initialLocations = [
-  {
-    title: 'Juan Valdéz', 
+//Setting up all my locations
+var initialLocations = [
+   {
+    title: 'Gold Museum', 
     location: {
-      lat: 4.653642,
-      lng: -74.054523
+      lat: 4.60115 ,
+      lng: -74.072965
     }
   },
   {
-    title: 'Philippe',
+    title: 'Colombian National Museum',
     location: {
-      lat: 4.652989,
-      lng: -74.05379
+      lat: 4.615618,
+      lng: -74.069007
     }
   },
   {
-    title: 'Wok',
+    title: 'Monserrate Sanctuary',
     location: {
-      lat: 4.654791,
-      lng: -74.057396
+      lat: 4.605833,
+      lng: -74.056389
+
     }
   },
   {
-    title: 'Home Burgers',
+    title: 'La Candelaria',
     location: {
-      lat: 4.654382,
-      lng: -74.052918
+      lat: 4.597014,
+      lng: -74.072876
     }
   },
   {
-    title: 'Mordida Bistro',
+    title: 'Bogotá Museum of Modern Art',
     location: {
-      lat: 4.655172,
-      lng: -74.058377
+      lat: 4.6101393,
+      lng: -74.07147
     }
   }
 ];
@@ -42,6 +44,7 @@ function initMap() {
 
   var bounds = new google.maps.LatLngBounds();
 
+//My viewmodel starts here
   var viewModel = function () {
 
     map = new google.maps.Map(document.getElementById('map'), {
@@ -53,7 +56,7 @@ function initMap() {
 
     self.locations = ko.observableArray(initialLocations);
 
-    // CREATE MARKERS
+    // create makers
     for (var i = 0; i < initialLocations.length; i++) {
       var marker = new google.maps.Marker({
         map: map,
@@ -75,7 +78,7 @@ function initMap() {
 
     map.fitBounds(bounds);
 
-    // INPUT SEARCH
+    // input search locations
     self.query= ko.observable('');
 
     self.sitesFilter = ko.computed(function(site) {
@@ -96,6 +99,10 @@ function initMap() {
         });
       }
     }, self);
+
+    self.markerTrigger = function(marker) {
+      google.maps.event.trigger(this.marker, 'click');
+    };
 
   };
   ko.applyBindings(new viewModel());
@@ -122,9 +129,10 @@ function populateInfoWindow(marker, infowindow) {
 
     $.ajax ({
       url: wikiUrl,
-      dataType: "jsonp",
-      success: function ( response ){
-        var articleList = response[1];
+      dataType: "jsonp"
+    })
+    .done(function (response) {
+      var articleList = response[1];
         if (articleList.length > 0) {
           for (var i=0; i<articleList.length; i++) {
             articleStr = articleList[i];
@@ -138,18 +146,22 @@ function populateInfoWindow(marker, infowindow) {
           }
         } else {
           contentWindow = '<div id="content">' + marker.title +
-                            '<p>' + 'No articles found on Wikipedia'+ '</p>' +
+                            '<p>' + 'Sorry, no articles in wikipedia'+ '</p>' +
                           '</div>'
           infowindow.setContent(contentWindow);
         }
-      }
-    }).error(function(e){
+    })
+    .error(function(e){
       contentWindow = '<div id="content">' + marker.title +
-                        '<p>' + 'Failed to reach Wikipedia'+ '</p>' +
+                        '<p>' + 'Opps, wikipedia is not working' + '</p>' +
                       '</div>'
       infowindow.setContent(contentWindow);
     });
 
     infowindow.open(map, marker);
   }
+}
+
+function googleError() {
+  alert("Oops, something happened map is not ready...");  
 }
